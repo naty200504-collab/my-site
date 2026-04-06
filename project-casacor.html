@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Casacor — Muse Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink:   #E8457A;
+    --blue:   #6B7FD4;
+    --orange: #F5A623;
+    --dark:   #1C1C2E;
+    --white:  #ffffff;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--dark); overflow-x: hidden; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100; height: 64px;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 3rem;
+    background: rgba(255,255,255,0.97); backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+  .nav-logo { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.5rem; font-weight: 900; color: var(--dark); text-decoration: none; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { font-size: 0.82rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: #888; text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--dark); font-weight: 700; }
+
+  /* BACK LINK */
+  .back-link {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em;
+    text-transform: uppercase; color: #888; text-decoration: none;
+    transition: color 0.2s; margin-bottom: 1.5rem;
+  }
+  .back-link:hover { color: var(--pink); }
+
+  /* PAGE HEADER */
+  .page-header { padding: 8rem 3rem 2rem; background: white; }
+  .project-tag {
+    display: inline-block; font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: #5f7efd; margin-bottom: 0.8rem;
+  }
+  .page-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    font-weight: 900; line-height: 1.0; letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+  }
+  .page-header h1 em { font-style: italic; color: var(--pink); }
+  .page-tagline {
+    font-size: 1.1rem; color: #555; max-width: 620px;
+    line-height: 1.75; font-style: italic;
+    border-left: 3px solid var(--pink);
+    padding-left: 1.2rem; margin-top: 0.5rem;
+  }
+
+  /* GRID */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    padding: 2rem 3rem 5rem;
+  }
+
+  .row-1      { grid-column: span 1; height: 320px; }
+  .row-2      { height: 300px; }
+  .row-2-wide { grid-column: span 2; height: 300px; }
+  .row-3      { height: 300px; }
+  .row-3-wide { grid-column: span 2; height: 300px; }
+  .row-4      { grid-column: span 1; height: 280px; }
+  .row-4-wide { grid-column: span 2; height: 280px; }
+
+  /* CARD */
+  .project-card {
+    position: relative; overflow: hidden; border-radius: 16px;
+    display: block;
+    background: #e8e8e8;
+  }
+  .project-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  /* PLACEHOLDER */
+  .placeholder {
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 2rem;
+  }
+  .ph-1 { background: #8B6954; color: white; }
+  .ph-2 { background: #6B4F3A; color: white; }
+  .ph-3 { background: #A08060; color: white; }
+  .ph-4 { background: #C9B49A; color: white; }
+  .ph-5 { background: #D4C5B0; color: white; }
+  .ph-name { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; font-style: italic; opacity: 0.5; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 0 1.5rem; }
+    .nav-links { display: none; }
+    .page-header { padding: 6rem 1.5rem 1.5rem; }
+    .projects-grid { grid-template-columns: 1fr 1fr; padding: 1rem 1.5rem 3rem; }
+    .row-1, .row-2, .row-2-wide, .row-3, .row-3-wide, .row-4, .row-4-wide { grid-column: span 1 !important; height: 200px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Muse Studio</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#about">About Us</a></li>
+    <li><a href="index.html#services">Services</a></li>
+    <li><a href="projects.html" class="active">Projects</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="page-header">
+  <a href="projects.html" class="back-link">← Back to Projects</a>
+  <div class="project-tag">✦ Freehand Drawing</div>
+  <h1><em>Casacor.</em></h1>
+  <p class="page-tagline">
+    Casacor is Brazil's largest architecture and design event. Beyond the decoration, the centerpiece of the environment was an original hand-painted artwork created directly on the bathtub — a one-of-a-kind piece that became the soul of the space.
+  </p>
+</div>
+
+<div class="projects-grid">
+
+  <!-- Row 1: 3 equal -->
+  <div class="project-card row-1">
+    <img src="img/proj_casacor.jpg" alt="Casacor">
+  </div>
+  <div class="project-card row-1">
+    <div class="placeholder ph-2"><div class="ph-name">Photo coming soon</div></div>
+  </div>
+  <div class="project-card row-1">
+    <div class="placeholder ph-3"><div class="ph-name">Photo coming soon</div></div>
+  </div>
+
+  <!-- Row 2: full width -->
+  <div class="project-card" style="grid-column: span 3; height: 360px;">
+    <div class="placeholder ph-4"><div class="ph-name">Photo coming soon</div></div>
+  </div>
+
+</div>
+
+</body>
+</html>

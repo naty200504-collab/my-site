@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — Muse Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink:   #E8457A;
+    --blue:   #6B7FD4;
+    --orange: #F5A623;
+    --dark:   #1C1C2E;
+    --white:  #ffffff;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--dark); overflow-x: hidden; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100; height: 64px;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 3rem;
+    background: rgba(255,255,255,0.97); backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+  .nav-logo { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.5rem; font-weight: 900; color: var(--dark); text-decoration: none; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { font-size: 0.82rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: #888; text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--dark); font-weight: 700; }
+
+  /* LAYOUT */
+  .contact-page {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    padding-top: 64px;
+    position: relative;
+    overflow: hidden;
+  }
+  .contact-page::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0;
+    filter: blur(70px);
+    opacity: 0.85;
+    animation: liquidFlow 8s ease-in-out infinite;
+    background:
+      radial-gradient(ellipse 40% 40% at 20% 50%, rgba(232,69,122,0.7) 0%, transparent 100%),
+      radial-gradient(ellipse 35% 35% at 80% 30%, rgba(107,127,212,0.65) 0%, transparent 100%),
+      radial-gradient(ellipse 30% 30% at 55% 80%, rgba(254,172,48,0.6) 0%, transparent 100%);
+  }
+
+  /* LEFT PANEL */
+  .contact-left {
+    background: transparent;
+    padding: 5rem 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+  }
+  @keyframes liquidFlow {
+    0%   { background:
+      radial-gradient(ellipse 40% 40% at 20% 50%, rgba(232,69,122,0.7) 0%, transparent 100%),
+      radial-gradient(ellipse 35% 35% at 80% 30%, rgba(107,127,212,0.65) 0%, transparent 100%),
+      radial-gradient(ellipse 30% 30% at 55% 80%, rgba(254,172,48,0.6) 0%, transparent 100%);
+    }
+    33%  { background:
+      radial-gradient(ellipse 45% 38% at 60% 30%, rgba(232,69,122,0.65) 0%, transparent 100%),
+      radial-gradient(ellipse 38% 42% at 25% 70%, rgba(107,127,212,0.6) 0%, transparent 100%),
+      radial-gradient(ellipse 35% 28% at 80% 65%, rgba(254,172,48,0.55) 0%, transparent 100%);
+    }
+    66%  { background:
+      radial-gradient(ellipse 38% 45% at 75% 65%, rgba(232,69,122,0.7) 0%, transparent 100%),
+      radial-gradient(ellipse 40% 35% at 55% 20%, rgba(107,127,212,0.65) 0%, transparent 100%),
+      radial-gradient(ellipse 32% 38% at 20% 40%, rgba(254,172,48,0.6) 0%, transparent 100%);
+    }
+    100% { background:
+      radial-gradient(ellipse 40% 40% at 20% 50%, rgba(232,69,122,0.7) 0%, transparent 100%),
+      radial-gradient(ellipse 35% 35% at 80% 30%, rgba(107,127,212,0.65) 0%, transparent 100%),
+      radial-gradient(ellipse 30% 30% at 55% 80%, rgba(254,172,48,0.6) 0%, transparent 100%);
+    }
+  }
+
+  .contact-left-content { position: relative; z-index: 1; }
+
+  .contact-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 4vw, 3.8rem);
+    font-weight: 900; line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: #000000;
+    margin-bottom: 3rem;
+  }
+  .contact-title em { font-style: italic; color: var(--pink); }
+
+  .contact-info { display: flex; flex-direction: column; gap: 1.5rem; }
+
+  .contact-item { display: flex; align-items: flex-start; gap: 1rem; }
+  .contact-icon {
+    width: 36px; height: 36px; flex-shrink: 0;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+  }
+  .icon-wa  { background: #25D366; }
+  .icon-mail { background: var(--pink); }
+  .icon-ig  { background: var(--blue); }
+
+  .contact-item-text { display: flex; flex-direction: column; gap: 0.15rem; }
+  .contact-item-label { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(0,0,0,0.4); }
+  .contact-item-value { font-size: 0.95rem; color: var(--dark); font-weight: 500; text-decoration: none; transition: color 0.2s; }
+  .contact-item-value:hover { color: var(--pink); }
+
+  .contact-divider { width: 40px; height: 2px; background: rgba(0,0,0,0.08); margin: 1rem 0; }
+
+  /* RIGHT PANEL */
+  .contact-right {
+    background: transparent;
+    padding: 5rem 4rem;
+    display: flex; flex-direction: column; justify-content: center;
+    position: relative; z-index: 1;
+  }
+
+  .form-card {
+    background: white;
+    border-radius: 20px;
+    border: 3px solid var(--dark);
+    box-shadow: 8px 8px 0 var(--dark);
+    padding: 2.5rem;
+    width: 100%;
+  }
+
+  .form-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem; font-weight: 700; font-style: italic;
+    color: var(--dark); margin-bottom: 0.4rem;
+  }
+  .form-sub { font-size: 0.88rem; color: #888; margin-bottom: 2.5rem; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1rem; }
+  .form-group label { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #777; }
+
+  .form-group input,
+  .form-group textarea {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    padding: 0.9rem 1.1rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    background: white;
+    color: var(--dark);
+    outline: none;
+    transition: border-color 0.2s;
+    resize: none;
+    width: 100%;
+  }
+  .form-group input:focus,
+  .form-group textarea:focus { border-color: var(--pink); }
+  .form-group textarea { height: 140px; }
+
+  .form-submit {
+    width: 100%;
+    background: var(--pink);
+    color: white;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem; font-weight: 700;
+    letter-spacing: 0.05em;
+    padding: 1.1rem;
+    border: none; border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.25s, transform 0.2s;
+    margin-top: 0.5rem;
+  }
+  .form-submit:hover { background: var(--dark); transform: translateY(-1px); }
+  .form-submit:active { transform: translateY(0); }
+
+  /* SUCCESS MESSAGE */
+  .success-msg {
+    display: none;
+    background: #e8f5e9; border: 2px solid #4caf50;
+    border-radius: 10px; padding: 1rem 1.5rem;
+    color: #2e7d32; font-size: 0.9rem; font-weight: 600;
+    margin-top: 1rem; text-align: center;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 0 1.5rem; }
+    .nav-links { display: none; }
+    .contact-page { grid-template-columns: 1fr; }
+    .contact-left { padding: 3rem 1.5rem; min-height: auto; }
+    .contact-right { padding: 3rem 1.5rem; }
+    .form-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">Muse Studio</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#about">About Us</a></li>
+    <li><a href="index.html#services">Services</a></li>
+    <li><a href="projects.html">Projects</a></li>
+    <li><a href="contact.html" class="active">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="contact-page">
+
+  <!-- LEFT -->
+  <div class="contact-left">
+    <div class="contact-left-content">
+      <h1 class="contact-title" style="color:#000000;">Get in <em>Touch.</em></h1>
+
+      <div class="contact-info">
+
+        <div class="contact-item">
+          <div class="contact-icon icon-wa">💬</div>
+          <div class="contact-item-text">
+            <span class="contact-item-label">WhatsApp</span>
+            <a href="https://wa.me/5511989952929" target="_blank" class="contact-item-value">+55 (11) 98995-2929</a>
+          </div>
+        </div>
+
+        <div class="contact-divider"></div>
+
+        <div class="contact-item">
+          <div class="contact-icon icon-mail">✉️</div>
+          <div class="contact-item-text">
+            <span class="contact-item-label">Email</span>
+            <a href="mailto:nathalieschuchman@gmail.com" class="contact-item-value">nathalieschuchman@gmail.com</a>
+          </div>
+        </div>
+
+        <div class="contact-divider"></div>
+
+        <div class="contact-item">
+          <div class="contact-icon icon-ig">📸</div>
+          <div class="contact-item-text">
+            <span class="contact-item-label">Instagram</span>
+            <a href="https://www.instagram.com/muse.studiobr" target="_blank" class="contact-item-value">@muse.studiobr</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT: FORM -->
+  <div class="contact-right">
+    <div class="form-card">
+      <div class="form-title">Send a message ✦</div>
+    <div class="form-sub">Tell me about your project — I'd love to hear from you.</div>
+
+    <!-- Formspree handles email delivery — replace YOUR_FORM_ID with your Formspree ID -->
+    <form id="contactForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" onsubmit="handleSubmit(event)">
+      <input type="hidden" name="_replyto" value="nathalieschuchman@gmail.com">
+      <input type="hidden" name="_subject" value="New message from Muse Studio website">
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="firstName">First Name</label>
+          <input type="text" id="firstName" name="firstName" placeholder="Jane" required>
+        </div>
+        <div class="form-group">
+          <label for="lastName">Last Name</label>
+          <input type="text" id="lastName" name="lastName" placeholder="Smith">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email *</label>
+        <input type="email" id="email" name="email" placeholder="jane@email.com" required>
+      </div>
+
+      <div class="form-group">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" placeholder="Tell me about your brand and what you're looking for..." required></textarea>
+      </div>
+
+      <button type="submit" class="form-submit" id="submitBtn">Send ✦</button>
+      <div class="success-msg" id="successMsg">✅ Message sent! I'll get back to you soon.</div>
+    </form>
+    </div><!-- end form-card -->
+  </div>
+
+</div>
+
+<script>
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    const form = document.getElementById('contactForm');
+    const success = document.getElementById('successMsg');
+
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+
+    const data = new FormData(form);
+    const response = await fetch(form.action, {
+      method: 'POST',
+      body: data,
+      headers: { 'Accept': 'application/json' }
+    });
+
+    if (response.ok) {
+      form.reset();
+      success.style.display = 'block';
+      btn.textContent = 'Sent ✦';
+    } else {
+      btn.textContent = 'Error — try again';
+      btn.disabled = false;
+    }
+  }
+</script>
+
+</body>
+</html>

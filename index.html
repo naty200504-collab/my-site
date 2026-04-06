@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Muse Studio — We design brands people remember.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@1,144,900&family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink:   #E8457A;
+    --blue:   #6B7FD4;
+    --orange: #F5A623;
+    --dark:   #1C1C2E;
+    --white:  #ffffff;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--dark); overflow-x: hidden; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.2rem 3rem;
+    background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
+    border-bottom: 2px solid var(--dark);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: var(--dark);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { font-size: 0.82rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: #888; text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--dark); font-weight: 700; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 8rem 3rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-left { max-width: 800px; }
+  .hero-sub { margin-left: auto; margin-right: auto; }
+  .hero-btns { justify-content: center; }
+  .hero-right { display: none; }
+  .hero-tag { display: inline-flex; align-items: center; background: var(--pink); color: white; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.4rem 1rem; border-radius: 100px; margin-bottom: 1.8rem; }
+  .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(3.5rem, 8vw, 7rem); font-weight: 900; line-height: 1.0; letter-spacing: -0.03em; margin-bottom: 1.5rem; }
+  .hero-title em { font-style: italic; color: var(--pink); }
+  .hero-sub { font-size: 1.25rem; line-height: 1.7; color: #444; max-width: 520px; margin-bottom: 2.5rem; }
+  .hero-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+  .btn-dark { background: var(--dark); color: white; font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 0.9rem; padding: 0.9rem 2rem; border-radius: 100px; border: 2px solid var(--dark); text-decoration: none; transition: all 0.25s; display: inline-block; }
+  .btn-dark:hover { background: var(--pink); border-color: var(--pink); }
+  .btn-outline-dark { background: transparent; color: var(--dark); font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 0.9rem; padding: 0.9rem 2rem; border-radius: 100px; border: 2px solid var(--dark); text-decoration: none; transition: all 0.25s; display: inline-block; }
+  .btn-outline-dark:hover { background: var(--orange); border-color: var(--orange); color: white; }
+  .btn-white { background: white; color: var(--dark); font-family: 'DM Sans', sans-serif; font-weight: 700; font-size: 0.95rem; padding: 1rem 2.5rem; border-radius: 100px; border: 2px solid white; text-decoration: none; transition: all 0.25s; display: inline-block; }
+  .btn-white:hover { background: var(--orange); border-color: var(--orange); color: white; }
+  .btn-ghost-white { background: transparent; color: white; font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 0.95rem; padding: 1rem 2.5rem; border-radius: 100px; border: 2px solid white; text-decoration: none; transition: all 0.25s; display: inline-block; }
+  .btn-ghost-white:hover { background: rgba(255,255,255,0.15); }
+
+  .hero-right { position: relative; }
+  .hero-img-wrap { border-radius: 24px; overflow: hidden; border: 3px solid var(--dark); box-shadow: 8px 8px 0 var(--dark); aspect-ratio: 4/5; }
+  .hero-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .hero-badge { position: absolute; bottom: -20px; left: -20px; background: var(--orange); border: 3px solid var(--dark); border-radius: 16px; padding: 0.8rem 1.2rem; box-shadow: 4px 4px 0 var(--dark); font-weight: 700; font-size: 0.85rem; line-height: 1.4; }
+
+  /* MARQUEE */
+  .marquee-wrap { background: var(--pink); color: white; padding: 1rem 0; overflow: hidden; }
+  .marquee-inner { display: flex; width: max-content; animation: marquee 22s linear infinite; }
+  .marquee-item { display: flex; align-items: center; gap: 1.5rem; padding: 0 2rem; font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.2rem; white-space: nowrap; }
+  .marquee-dot { color: var(--orange); font-style: normal; font-size: 1.4rem; }
+  @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  /* SECTION SHARED */
+  section { padding: 6rem 3rem; }
+  .section-pill { display: inline-block; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 0.35rem 1rem; border-radius: 100px; margin-bottom: 1rem; }
+  .pill-pink { background: var(--pink); color: white; }
+  .pill-blue { background: var(--blue); color: white; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 4vw, 3.5rem); font-weight: 900; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 1rem; }
+  .section-title em { font-style: italic; color: var(--pink); }
+  .section-sub { font-size: 1.05rem; color: #555; max-width: 500px; line-height: 1.7; margin-bottom: 3rem; }
+
+  /* SERVICES - PRICING CARDS */
+  #services { background: #FDF5F8; }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+  .pkg-card {
+    border-radius: 20px;
+    overflow: hidden;
+    border: 3px solid var(--dark);
+    box-shadow: 6px 6px 0 var(--dark);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .pkg-card:hover { transform: translate(-3px,-3px); box-shadow: 9px 9px 0 var(--dark); }
+
+  .pkg-card-1 { background: var(--pink); }
+  .pkg-card-2 { background: #feac30; }
+  .pkg-card-3 { background: var(--blue); }
+
+  .pkg-body { padding: 2rem 1.8rem; flex: 1; }
+
+  .pkg-studio-tag {
+    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.15em;
+    text-transform: uppercase; opacity: 0.6; margin-bottom: 1.5rem;
+  }
+  .pkg-card-1 .pkg-studio-tag,
+  .pkg-card-3 .pkg-studio-tag { color: white; }
+  .pkg-card-2 .pkg-studio-tag { color: rgba(0,0,0,0.45); }
+
+  .pkg-name {
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(1.6rem, 2.5vw, 2rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    margin-bottom: 1.8rem;
+  }
+  .pkg-card-1 .pkg-name,
+  .pkg-card-3 .pkg-name { color: white; }
+  .pkg-card-2 .pkg-name { color: var(--dark); }
+
+  .pkg-list { list-style: none; margin-bottom: 1.5rem; }
+  .pkg-list li {
+    display: flex; gap: 0.6rem;
+    padding: 0.4rem 0;
+    font-size: 0.88rem; font-weight: 600; line-height: 1.3;
+  }
+  .pkg-card-1 .pkg-list li,
+  .pkg-card-3 .pkg-list li { color: white; }
+  .pkg-card-2 .pkg-list li { color: var(--dark); }
+
+  .pkg-plus {
+    font-size: 1rem; font-weight: 900; flex-shrink: 0; margin-top: 0.05rem;
+  }
+  .pkg-card-1 .pkg-plus { color: var(--orange); }
+  .pkg-card-2 .pkg-plus { color: var(--dark); }
+  .pkg-card-3 .pkg-plus { color: var(--orange); }
+
+  .pkg-sub-list {
+    list-style: none; margin-top: 0.2rem; margin-bottom: 0.5rem; padding-left: 1.4rem;
+  }
+  .pkg-sub-list li {
+    font-size: 0.78rem; font-weight: 400 !important; opacity: 0.85;
+    padding: 0.1rem 0 !important;
+  }
+
+  .pkg-delivery {
+    border-top: 1px solid rgba(255,255,255,0.25);
+    padding-top: 1rem; margin-top: auto;
+  }
+  .pkg-delivery-label {
+    font-size: 0.6rem; font-weight: 700; letter-spacing: 0.15em;
+    text-transform: uppercase; opacity: 0.5; margin-bottom: 0.4rem;
+  }
+  .pkg-card-1 .pkg-delivery-label,
+  .pkg-card-3 .pkg-delivery-label { color: white; }
+  .pkg-card-2 .pkg-delivery-label { color: rgba(0,0,0,0.45); }
+
+  .pkg-delivery-items { font-size: 0.7rem; line-height: 1.8; }
+  .pkg-card-1 .pkg-delivery-items,
+  .pkg-card-3 .pkg-delivery-items { color: rgba(255,255,255,0.75); }
+  .pkg-card-2 .pkg-delivery-items { color: rgba(0,0,0,0.6); }
+
+  .pkg-footer {
+    background: var(--dark);
+    display: flex; align-items: center;
+    padding: 1rem 1.8rem; gap: 1rem;
+    border-top: 3px solid var(--dark);
+  }
+  .pkg-card-1 .pkg-footer { background: rgba(0,0,0,0.25); }
+  .pkg-card-2 .pkg-footer { background: rgba(0,0,0,0.12); }
+  .pkg-card-3 .pkg-footer { background: rgba(0,0,0,0.2); }
+
+  .pkg-time {
+    display: flex; align-items: center; gap: 0.4rem;
+    font-size: 0.85rem; font-weight: 700; color: white; white-space: nowrap;
+  }
+  .pkg-time-icon { font-size: 1rem; }
+  .pkg-divider { display: none; }
+  .pkg-price { display: none; }
+
+  /* LANGUAGE SWITCHER */
+  .lang-switcher {
+    position: fixed; bottom: 2rem; right: 2rem;
+    z-index: 200;
+    display: flex; flex-direction: column; align-items: flex-end; gap: 0.5rem;
+  }
+  .lang-toggle {
+    background: white; border: 2px solid rgba(0,0,0,0.08);
+    border-radius: 100px; padding: 0.5rem 1rem;
+    display: flex; align-items: center; gap: 0.5rem;
+    font-size: 0.78rem; font-weight: 600; letter-spacing: 0.05em;
+    cursor: pointer; box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    transition: box-shadow 0.2s;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--dark);
+    user-select: none;
+  }
+  .lang-toggle:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.15); }
+  .lang-globe { font-size: 1rem; }
+  .lang-options {
+    display: none; flex-direction: column; gap: 0.4rem; align-items: flex-end;
+  }
+  .lang-options.open { display: flex; }
+  .lang-btn {
+    background: white; border: 2px solid rgba(0,0,0,0.06);
+    border-radius: 100px; padding: 0.45rem 1rem;
+    font-size: 0.78rem; font-weight: 600;
+    cursor: pointer; display: flex; align-items: center; gap: 0.5rem;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    transition: all 0.2s; font-family: 'DM Sans', sans-serif;
+    color: var(--dark); text-decoration: none;
+  }
+  .lang-btn:hover { background: var(--pink); color: white; border-color: var(--pink); }
+  /* Hide Google's default bar */
+  .goog-te-banner-frame { display: none !important; }
+  body { top: 0 !important; }
+  .skiptranslate { display: none !important; }
+  .strip-track { overflow: hidden; width: 100%; }
+  .strip-inner {
+    display: flex; gap: 1rem;
+    width: max-content;
+    animation: stripScroll 30s linear infinite;
+  }
+  .strip-inner:hover { animation-play-state: paused; }
+  .strip-slide {
+    width: 320px; height: 240px; flex-shrink: 0;
+    border-radius: 16px; overflow: hidden;
+    border: 2px solid rgba(0,0,0,0.08);
+  }
+  .strip-slide img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
+  .strip-slide:hover img { transform: scale(1.04); }
+  .strip-placeholder {
+    width: 100%; height: 100%;
+    background: #f0f0f0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.85rem; color: #aaa; font-weight: 500;
+  }
+  @keyframes stripScroll {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* EXTRA SERVICES */
+  .extras-wrap {
+    margin-top: 2rem;
+    border-radius: 20px;
+    border: 3px solid var(--dark);
+    box-shadow: 6px 6px 0 var(--dark);
+    background: #d9eaf3;
+    padding: 2rem 2.5rem;
+  }
+  .extras-label {
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--pink); margin-bottom: 1.5rem;
+  }
+  .extras-grid { display: flex; align-items: flex-start; flex-wrap: wrap; }
+  .extra-item { flex: 1; min-width: 180px; padding: 0 1.5rem; }
+  .extra-item:first-child { padding-left: 0; }
+  .extra-icon { display: none; }
+  .extra-name { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; font-style: italic; color: var(--dark); margin-bottom: 0.3rem; white-space: nowrap; }
+  .extra-desc { font-size: 0.78rem; color: #666; line-height: 1.4; }
+  .extra-divider { width: 1px; align-self: stretch; background: rgba(0,0,0,0.12); }
+
+  /* WORK */
+  #work { background: #F5F8FD; }
+  .work-label { display: inline-flex; align-items: center; background: var(--blue); color: white; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.4rem 1rem; border-radius: 100px; margin-bottom: 0.8rem; }
+  .work-title { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+  .work-desc { font-size: 0.9rem; color: #666; margin-bottom: 1.2rem; }
+  .work-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
+  .work-tag { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; padding: 0.3rem 0.9rem; border-radius: 100px; border: 2px solid var(--dark); }
+  .work-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto auto; gap: 1.2rem; }
+  .work-img { border-radius: 16px; overflow: hidden; border: 3px solid var(--dark); box-shadow: 5px 5px 0 var(--dark); transition: transform 0.25s, box-shadow 0.25s; }
+  .work-img:hover { transform: translate(-3px,-3px); box-shadow: 8px 8px 0 var(--dark); }
+  .work-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .work-img.tall { grid-row: span 2; }
+  .work-img.ratio-43 { aspect-ratio: 4/3; }
+
+  /* ABOUT */
+  #about { background: var(--pink); color: white; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+  #about .section-title { color: white; }
+  #about .section-title em { color: var(--orange); }
+  #about .section-sub { color: rgba(255,255,255,0.85); }
+  .about-list { list-style: none; margin-bottom: 2rem; }
+  .about-list li { display: flex; align-items: center; gap: 0.8rem; padding: 0.65rem 0; border-bottom: 1px solid rgba(255,255,255,0.2); font-size: 0.95rem; }
+  .about-list li:last-child { border-bottom: none; }
+  .about-img-wrap { border-radius: 24px; overflow: hidden; border: 4px solid white; box-shadow: 10px 10px 0 rgba(0,0,0,0.2); aspect-ratio: 3/4; }
+  .about-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+
+  /* CTA */
+  .cta-section { background: var(--blue); text-align: center; padding: 7rem 3rem; }
+
+  /* CTA ANIMATED GRADIENT */
+  .cta-section { position: relative; overflow: hidden; }
+  .cta-section::before {
+    content: '';
+    position: absolute; inset: 0; z-index: 0;
+    background: radial-gradient(ellipse at 15% 50%, rgba(232,69,122,0.45) 0%, transparent 55%),
+                radial-gradient(ellipse at 85% 25%, rgba(107,127,212,0.38) 0%, transparent 50%),
+                radial-gradient(ellipse at 55% 85%, rgba(254,172,48,0.35) 0%, transparent 45%);
+    animation: gradientBreathe 2.5s ease-in-out infinite alternate;
+  }
+  .cta-title, .cta-sub, .cta-btns { position: relative; z-index: 1; }
+  .cta-title { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 900; line-height: 1.0; letter-spacing: -0.03em; color: white; margin-bottom: 1.2rem; }
+  .cta-title em { font-style: italic; color: var(--orange); }
+  .cta-sub { font-size: 1.1rem; color: rgba(255,255,255,0.85); margin-bottom: 2.5rem; }
+  .cta-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+  /* FOOTER */
+  footer { background: var(--dark); color: white; padding: 2.5rem 3rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  footer .logo { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 900; font-size: 1.4rem; }
+  footer .credits { font-size: 0.8rem; color: rgba(255,255,255,0.4); }
+  footer .socials { display: flex; gap: 1rem; }
+  footer .socials a { color: white; font-size: 0.8rem; font-weight: 600; text-decoration: none; letter-spacing: 0.05em; text-transform: uppercase; transition: color 0.2s; }
+  footer .socials a:hover { color: var(--pink); }
+
+  /* ANIMATIONS */
+  /* HERO ANIMATED GRADIENT */
+  .hero { position: relative; overflow: hidden; }
+  .hero::before {
+    content: '';
+    position: absolute; inset: -20%; z-index: 0;
+    filter: blur(60px);
+    opacity: 0.75;
+    animation: liquidFlow 8s ease-in-out infinite;
+    background:
+      radial-gradient(ellipse 40% 40% at 20% 50%, rgba(232,69,122,0.7) 0%, transparent 100%),
+      radial-gradient(ellipse 35% 35% at 80% 30%, rgba(107,127,212,0.65) 0%, transparent 100%),
+      radial-gradient(ellipse 30% 30% at 55% 80%, rgba(254,172,48,0.6) 0%, transparent 100%);
+  }
+  @keyframes liquidFlow {
+    0%   { background:
+      radial-gradient(ellipse 40% 40% at 20% 50%, rgba(232,69,122,0.7) 0%, transparent 100%),
+      radial-gradient(ellipse 35% 35% at 80% 30%, rgba(107,127,212,0.65) 0%, transparent 100%),
+      radial-gradient(ellipse 30% 30% at 55% 80%, rgba(254,172,48,0.6) 0%, transparent 100%);
+    }
+    33%  { background:
+      radial-gradient(ellipse 45% 38% at 60% 30%, rgba(232,69,122,0.65) 0%, transparent 100%),
+      radial-gradient(ellipse 38% 42% at 25% 70%, rgba(107,127,212,0.6) 0%, transparent 100%),
+      radial-gradient(ellipse 35% 28% at 80% 65%, rgba(254,172,48,0.55) 0%, transparent 100%);
+    }
+    66%  { background:
+      radial-gradient(ellipse 38% 45% at 75% 65%, rgba(232,69,122,0.7) 0%, transparent 100%),
+      radial-gradient(ellipse 40% 35% at 55% 20%, rgba(107,127,212,0.65) 0%, transparent 100%),
+      radial-gradient(ellipse 32% 38% at 20% 40%, rgba(254,172,48,0.6) 0%, transparent 100%);
+    }
+    100% { background:
+      radial-gradient(ellipse 40% 40% at 20% 50%, rgba(232,69,122,0.7) 0%, transparent 100%),
+      radial-gradient(ellipse 35% 35% at 80% 30%, rgba(107,127,212,0.65) 0%, transparent 100%),
+      radial-gradient(ellipse 30% 30% at 55% 80%, rgba(254,172,48,0.6) 0%, transparent 100%);
+    }
+  }
+  .hero-left, .hero-right { position: relative; z-index: 1; }
+  .hero-stars { display: none; }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+  .hero-tag    { animation: fadeUp 0.6s ease both; }
+  .hero-title  { animation: fadeUp 0.7s ease both 0.1s; }
+  .hero-sub    { animation: fadeUp 0.7s ease both 0.2s; }
+  .hero-btns   { animation: fadeUp 0.7s ease both 0.3s; }
+  .hero-right  { animation: fadeUp 0.8s ease both 0.25s; }
+
+  /* HAMBURGER */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    cursor: pointer;
+    padding: 4px;
+    background: none;
+    border: none;
+  }
+  .hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--dark);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: var(--white);
+    z-index: 200;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2.5rem;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 900;
+    font-style: italic;
+    color: var(--dark);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .mobile-menu a:hover { color: var(--pink); }
+  .mobile-menu-close {
+    position: absolute;
+    top: 1.2rem; right: 1.5rem;
+    background: none; border: none;
+    font-size: 2rem; cursor: pointer; color: var(--dark);
+  }
+
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .hero { padding: 7rem 1.5rem 3.5rem; }
+    .hero-right { display: none; }
+    section { padding: 4rem 1.5rem; }
+    .services-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
+    #about { grid-template-columns: 1fr; padding: 4rem 1.5rem; }
+    .about-img-wrap { display: none; }
+    .work-grid { grid-template-columns: 1fr 1fr; }
+    .work-img.tall { grid-row: span 1; }
+    footer { flex-direction: column; text-align: center; gap: 1.2rem; }
+    .extras-grid { gap: 0; }
+    .extra-item { min-width: 140px; padding: 0 1rem; }
+    .strip-slide { width: 260px; height: 195px; }
+  }
+
+  @media (max-width: 600px) {
+    nav { padding: 0.9rem 1.2rem; }
+    .nav-logo { font-size: 1.3rem; }
+    .hero { padding: 6rem 1.2rem 3rem; min-height: 90vh; }
+    .hero-title { font-size: clamp(2.6rem, 11vw, 4rem); margin-bottom: 1.2rem; }
+    .hero-sub { font-size: 1rem; margin-bottom: 2rem; }
+    .hero-btns { flex-direction: column; align-items: center; width: 100%; }
+    .hero-btns a { width: 100%; text-align: center; }
+    .marquee-item { font-size: 1rem; }
+    section { padding: 3.5rem 1.2rem; }
+    .section-title { font-size: clamp(1.8rem, 7vw, 2.4rem); }
+    .section-sub { font-size: 0.95rem; margin-bottom: 2rem; }
+    .services-grid { grid-template-columns: 1fr; gap: 1rem; }
+    .pkg-card { box-shadow: 4px 4px 0 var(--dark); }
+    .extras-wrap { padding: 1.5rem; }
+    .extras-grid { flex-direction: column; gap: 1.2rem; }
+    .extra-item { min-width: unset; padding: 0; }
+    .extra-divider { display: none; }
+    .strip-slide { width: 220px; height: 165px; }
+    .work-grid { grid-template-columns: 1fr; gap: 1rem; }
+    .work-img { box-shadow: 3px 3px 0 var(--dark); }
+    .work-img.tall { grid-row: span 1; }
+    .work-title { font-size: 1.6rem; }
+    #about { padding: 3.5rem 1.2rem; }
+    .cta-section { padding: 4rem 1.2rem; }
+    .cta-title { font-size: clamp(2rem, 8vw, 3rem); }
+    .cta-btns { flex-direction: column; align-items: center; }
+    .cta-btns a { width: 100%; text-align: center; }
+    footer { padding: 2rem 1.2rem; }
+    footer .socials { flex-wrap: wrap; justify-content: center; }
+    .lang-switcher { bottom: 1rem; right: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-menu-close" id="menuClose">✕</button>
+  <a href="index.html" onclick="closeMobileMenu()">Home</a>
+  <a href="index.html#about" onclick="closeMobileMenu()">About Us</a>
+  <a href="index.html#services" onclick="closeMobileMenu()">Services</a>
+  <a href="projects.html" onclick="closeMobileMenu()">Projects</a>
+  <a href="contact.html" onclick="closeMobileMenu()">Contact</a>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Muse Studio</a>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links">
+    <li><a href="#">Home</a></li>
+    <li><a href="#about">About Us</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="projects.html">Projects</a></li>
+    <li><a href="/cdn-cgi/l/email-protection#f098959c9c9fb09d85839583848594999fde939f9d">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-stars" id="heroStars"></div>
+  <div class="hero-left">
+    <h1 class="hero-title">We design brands<br><em>people remember.</em></h1>
+    <p class="hero-sub">Bold. Expressive. Strategic. We create visual identities that make small and big businesses look and feel like the brands they were always meant to be.</p>
+    <div class="hero-btns">
+      <a href="#work" class="btn-dark">Projects ✦</a>
+      <a href="/cdn-cgi/l/email-protection#0169646d6d6e416c74726472757465686e2f626e6c" class="btn-outline-dark">Contact</a>
+    </div>
+  </div>
+
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-inner">
+    <div class="marquee-item">Brand strategy <span class="marquee-dot">✦</span></div>
+    <div class="marquee-item">Visual identity <span class="marquee-dot">✦</span></div>
+    <div class="marquee-item">Brand systems <span class="marquee-dot">✦</span></div>
+    <div class="marquee-item">Logos <span class="marquee-dot">✦</span></div>
+    <div class="marquee-item">Product packaging <span class="marquee-dot">✦</span></div>
+    <div class="marquee-item">Retail packaging <span class="marquee-dot">✦</span></div>
+    <div class="marquee-item">Product storytelling <span class="marquee-dot">✦</span></div>
+    <div class="marquee-item">Labels <span class="marquee-dot">✦</span></div>
+    <div class="marquee-item">Amazon listings <span class="marquee-dot">✦</span></div>
+    <div class="marquee-item">Product graphics <span class="marquee-dot">✦</span></div>
+    <div class="marquee-item">Marketing visuals <span class="marquee-dot">✦</span></div>
+    <div class="marquee-item">Launch assets <span class="marquee-dot">✦</span></div>
+    <div class="marquee-item">Brand strategy <span class="marquee-dot">✦</span></div>
+    <div class="marquee-item">Visual identity <span class="marquee-dot">✦</span></div>
+    <div class="marquee-item">Brand systems <span class="marquee-dot">✦</span></div>
+    <div class="marquee-item">Logos <span class="marquee-dot">✦</span></div>
+    <div class="marquee-item">Product packaging <span class="marquee-dot">✦</span></div>
+    <div class="marquee-item">Retail packaging <span class="marquee-dot">✦</span></div>
+    <div class="marquee-item">Product storytelling <span class="marquee-dot">✦</span></div>
+    <div class="marquee-item">Labels <span class="marquee-dot">✦</span></div>
+    <div class="marquee-item">Amazon listings <span class="marquee-dot">✦</span></div>
+    <div class="marquee-item">Product graphics <span class="marquee-dot">✦</span></div>
+    <div class="marquee-item">Marketing visuals <span class="marquee-dot">✦</span></div>
+    <div class="marquee-item">Launch assets <span class="marquee-dot">✦</span></div>
+  </div>
+</div>
+
+<!-- WHAT WE DO -->
+<section id="what-we-do" style="background: white; padding-bottom: 1rem;">
+  <div class="section-pill pill-pink">✦ About Us</div>
+  <h2 class="section-title">Design that <em>moves people.</em></h2>
+  <p style="font-size: 1.05rem; line-height: 1.85; color: #444; max-width: 720px; margin-bottom: 1.2rem;">
+    At Muse Studio, we believe emotional design is what transforms brands into unforgettable experiences. Our work goes beyond aesthetics — We design with intention, grounded in a deep understanding of human behavior and emotional connection.
+  </p>
+  <p style="font-size: 1.05rem; line-height: 1.85; color: #444; max-width: 720px; margin-bottom: 1.2rem;">
+    We dive into what your audience feels before, during, and after interacting with your brand. From there, we craft every detail of your visual and verbal identity using psychology-driven design principles.
+  </p>
+  <p style="font-size: 1.05rem; line-height: 1.85; color: #444; max-width: 720px;">
+    The result is a brand that not only stands out, but resonates — Creating meaningful connections, lasting impressions, and real impact.
+  </p>
+</section>
+
+<!-- PROJECTS STRIP -->
+<section id="work" style="padding: 1rem 0; background: white; overflow: hidden;">
+  <div class="strip-track">
+    <div class="strip-inner" id="projectStrip">
+      <div class="strip-slide"><img src="img/p1.png" alt="UpSip Soda"></div>
+      <div class="strip-slide"><img src="img/p2.jpg" alt="VYNE Hyaluronic Acid"></div>
+      <div class="strip-slide"><img src="img/p3.png" alt="Jogo de Cama"></div>
+      <div class="strip-slide"><img src="img/p4.png" alt="Valente"></div>
+      <div class="strip-slide"><img src="img/p5.jpg" alt="FAZE Magazine"></div>
+      <div class="strip-slide"><img src="img/p6.png" alt="Mais é Mais"></div>
+      <div class="strip-slide"><img src="img/p7.png" alt="Galak"></div>
+      <div class="strip-slide"><img src="img/p8.jpg" alt="Colorama"></div>
+      <!-- duplicated for seamless loop -->
+      <div class="strip-slide"><img src="img/p1.png" alt="UpSip Soda"></div>
+      <div class="strip-slide"><img src="img/p2.jpg" alt="VYNE Hyaluronic Acid"></div>
+      <div class="strip-slide"><img src="img/p3.png" alt="Jogo de Cama"></div>
+      <div class="strip-slide"><img src="img/p4.png" alt="Valente"></div>
+      <div class="strip-slide"><img src="img/p5.jpg" alt="FAZE Magazine"></div>
+      <div class="strip-slide"><img src="img/p6.png" alt="Mais é Mais"></div>
+      <div class="strip-slide"><img src="img/p7.png" alt="Galak"></div>
+      <div class="strip-slide"><img src="img/p8.jpg" alt="Colorama"></div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-pill pill-pink">✦ Our Services</div>
+  <h2 class="section-title">Design that <em>works.</em></h2>
+  <p class="section-sub">From brand strategy to packaging and ecommerce — We build everything your brand needs to stand out and sell.</p>
+  <div class="services-grid">
+
+    <!-- BASIC -->
+    <!-- BASIC -->
+    <div class="pkg-card pkg-card-1">
+      <div class="pkg-body">
+        <div class="pkg-studio-tag">Muse Studio</div>
+        <div class="pkg-name">Basic<br>Branding</div>
+        <ul class="pkg-list">
+          <li><span class="pkg-plus">+</span><span>Presentation</span></li>
+          <li><span class="pkg-plus">+</span><span>Mood board</span></li>
+          <li><span class="pkg-plus">+</span><span>Main Logo Design</span></li>
+          <li><span class="pkg-plus">+</span><span>Color Palette Selection</span></li>
+          <li><span class="pkg-plus">+</span><span>Typography Selection</span></li>
+        </ul>
+        <div class="pkg-delivery">
+          <div class="pkg-delivery-label">Deliverables:</div>
+          <div class="pkg-delivery-items">
+            Presentation PDF<br>
+            Logo &amp; variations in editable format (.AI, .PSD)<br>
+            Image formats (.JPG, .PNG)<br>
+            PDF with logo and color palette
+          </div>
+        </div>
+      </div>
+      <div class="pkg-footer">
+        <div class="pkg-time"><span class="pkg-time-icon">⏱</span> 3–4 weeks</div>
+      </div>
+    </div>
+
+    <!-- STANDARD -->
+    <div class="pkg-card pkg-card-2">
+      <div class="pkg-body">
+        <div class="pkg-studio-tag">Muse Studio</div>
+        <div class="pkg-name">Standard<br>Branding</div>
+        <ul class="pkg-list">
+          <li><span class="pkg-plus">+</span><span>Presentation</span></li>
+          <li><span class="pkg-plus">+</span><span>Mood board</span></li>
+          <li><span class="pkg-plus">+</span><span>Main Logo Design</span></li>
+          <li>
+            <span class="pkg-plus">+</span>
+            <span>Brand Identity Guide
+              <ul class="pkg-sub-list">
+                <li>Color Palette Selection</li>
+                <li>Typography Selection</li>
+                <li>Graphics icons</li>
+                <li>Mockups</li>
+                <li>Social media examples</li>
+              </ul>
+            </span>
+          </li>
+          <li><span class="pkg-plus">+</span><span>Stationery design of choice <em style="font-size:0.75rem;font-weight:400;">(Business Card, Letterhead or others)</em></span></li>
+        </ul>
+        <div class="pkg-delivery">
+          <div class="pkg-delivery-label">Deliverables:</div>
+          <div class="pkg-delivery-items">
+            Presentation PDF<br>
+            Logo &amp; variations (.AI, .PSD, .PNG, .JPG)<br>
+            Brand Identity Guide PDF<br>
+            Editable Stationery File + JPG
+          </div>
+        </div>
+      </div>
+      <div class="pkg-footer">
+        <div class="pkg-time"><span class="pkg-time-icon">⏱</span> 4–5 weeks</div>
+      </div>
+    </div>
+
+    <!-- ADVANCED -->
+    <div class="pkg-card pkg-card-3">
+      <div class="pkg-body">
+        <div class="pkg-studio-tag">Muse Studio</div>
+        <div class="pkg-name">Advanced<br>Branding</div>
+        <ul class="pkg-list">
+          <li><span class="pkg-plus">+</span><span>Presentation</span></li>
+          <li><span class="pkg-plus">+</span><span>Mood board</span></li>
+          <li><span class="pkg-plus">+</span><span>Main Logo Design</span></li>
+          <li>
+            <span class="pkg-plus">+</span>
+            <span>Brand Identity Guide
+              <ul class="pkg-sub-list">
+                <li>Color Palette Selection</li>
+                <li>Typography Selection</li>
+                <li>Graphics icons</li>
+                <li>Mockups</li>
+                <li>Social media examples</li>
+              </ul>
+            </span>
+          </li>
+          <li><span class="pkg-plus">+</span><span>Stationery design of choice <em style="font-size:0.75rem;font-weight:400;">(Business Card, Letterhead or others)</em></span></li>
+          <li>
+            <span class="pkg-plus">+</span>
+            <span>Social media starter kit
+              <ul class="pkg-sub-list">
+                <li>6 social media posts (story format or post)</li>
+                <li>6 story highlight covers</li>
+              </ul>
+            </span>
+          </li>
+        </ul>
+        <div class="pkg-delivery">
+          <div class="pkg-delivery-label">Deliverables:</div>
+          <div class="pkg-delivery-items">
+            Presentation PDF<br>
+            Logo &amp; variations (.AI, .PSD, .PNG, .JPG)<br>
+            Brand Identity Guide PDF<br>
+            Editable Stationery File + JPG<br>
+            Social Media starter kit folder (.JPEG, .PNG)
+          </div>
+        </div>
+      </div>
+      <div class="pkg-footer">
+        <div class="pkg-time"><span class="pkg-time-icon">⏱</span> 5–6 weeks</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- EXTRA SERVICES -->
+  <div class="extras-wrap">
+    <div class="extras-label">✦ Extra Services</div>
+    <div class="extras-grid">
+      <div class="extra-item">
+        <div class="extra-icon">📦</div>
+        <div class="extra-name">Product Packaging</div>
+        <div class="extra-desc">Labels, boxes, retail & product packaging</div>
+      </div>
+      <div class="extra-divider"></div>
+      <div class="extra-item">
+        <div class="extra-icon">📱</div>
+        <div class="extra-name">Freehand Illustrations</div>
+        <div class="extra-desc">Original digital or hand-drawn illustrations</div>
+      </div>
+      <div class="extra-divider"></div>
+      <div class="extra-item">
+        <div class="extra-icon">🛒</div>
+        <div class="extra-name">Amazon Listings</div>
+        <div class="extra-desc">Product graphics & launch assets for Amazon</div>
+      </div>
+      <div class="extra-divider"></div>
+      <div class="extra-item">
+        <div class="extra-icon">📱</div>
+        <div class="extra-name">Marketing Visuals</div>
+        <div class="extra-desc">Ads, banners & social media visuals</div>
+      </div>
+    </div>
+  </div>
+
+</section>
+<section id="about">
+  <div>
+    <div class="section-pill" style="background:rgba(255,255,255,0.25);color:white;">✦ Who's behind it</div>
+    <h2 class="section-title">Hi, I'm Nathalie. <em style="letter-spacing:0.01em;">Nice to meet you.</em></h2>
+    <p class="section-sub">Designer & founder of Muse Studio, Graduated in Design. I've worked with brands like The Walt Disney Company, Pixar, Marvel, Arezzo&amp;Co and Ambev — And today I help small and big businesses build brands that actually stand out.</p>
+    <ul class="about-list">
+      <li><span>🎓</span> Graduation & Certificates: ESPM, UCLA, Marangoni Milano, Parsons School of Design</li>
+      <li><span>🌍</span> Based in Brazil, Working Globally</li>
+      <li><span>✦</span> Branding, Product Design, Graphic Design</li>
+      <li><span>💼</span> <a href="https://www.linkedin.com/in/nathalieschuchman/" target="_blank" style="color:white;text-decoration:underline;text-underline-offset:3px;">LinkedIn</a></li>
+    </ul>
+    <a href="/cdn-cgi/l/email-protection#9ef6fbf2f2f1def3ebedfbedeaebfaf7f1b0fdf1f3" class="btn-white">Contact ✦</a>
+  </div>
+  <div class="about-img-wrap">
+    <img src="img/nathalie.jpeg" alt="Nathalie — Founder of Muse Studio">
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2 class="cta-title">Ready to build a brand<br><em>people remember?</em></h2>
+  <p class="cta-sub">Safe brands are invisible. Let's make yours impossible to ignore.</p>
+  <div class="cta-btns">
+    <a href="/cdn-cgi/l/email-protection#a4ccc1c8c8cbe4c9d1d7c1d7d0d1c0cdcb8ac7cbc9" class="btn-white">Contact ✦</a>
+    <a href="https://www.instagram.com/muse.studiobr?igsh=bGZmbjAzNWg4NTNj&utm_source=qr" target="_blank" class="btn-ghost-white">@muse.studiobr</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo">Muse Studio</div>
+  <div class="credits">© 2025 Muse Studio · São Paulo, Brazil</div>
+  <div class="socials">
+    <a href="https://www.instagram.com/muse.studiobr?igsh=bGZmbjAzNWg4NTNj&utm_source=qr" target="_blank">Instagram</a>
+    <a href="mailto:hello@musestudio.com">Email</a>
+  </div>
+</footer>
+
+<!-- GOOGLE TRANSLATE -->
+<div id="google_translate_element" style="display:none;"></div>
+
+<!-- LANGUAGE SWITCHER -->
+<div class="lang-switcher">
+  <div class="lang-options" id="langOptions">
+    <button class="lang-btn" onclick="translateTo('en')">🇺🇸 English</button>
+    <button class="lang-btn" onclick="translateTo('pt')">🇧🇷 Português</button>
+    <button class="lang-btn" onclick="translateTo('es')">🇪🇸 Español</button>
+  </div>
+  <div class="lang-toggle" onclick="toggleLang()">
+    <span>🌐</span>
+    <span id="currentLang">Language</span>
+    <span>▾</span>
+  </div>
+</div>
+
+<script>
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({ pageLanguage: 'en', includedLanguages: 'pt,es,en', autoDisplay: false }, 'google_translate_element');
+  }
+  function toggleLang() { document.getElementById('langOptions').classList.toggle('open'); }
+  function translateTo(lang) {
+    const labels = { en: 'English', pt: 'Português', es: 'Español' };
+    document.getElementById('currentLang').textContent = labels[lang];
+    const select = document.querySelector('.goog-te-combo');
+    if (select) { select.value = lang; select.dispatchEvent(new Event('change')); }
+    document.getElementById('langOptions').classList.remove('open');
+  }
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.lang-switcher')) document.getElementById('langOptions').classList.remove('open');
+  });
+</script>
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+<script>
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const menuClose = document.getElementById('menuClose');
+  function closeMobileMenu() {
+    mobileMenu.classList.remove('open');
+    hamburger.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  hamburger.addEventListener('click', () => {
+    const isOpen = mobileMenu.classList.toggle('open');
+    hamburger.classList.toggle('open');
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+  menuClose.addEventListener('click', closeMobileMenu);
+</script>
+</body>
+</html>

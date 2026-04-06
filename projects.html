@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projects — Muse Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink:   #E8457A;
+    --blue:   #6B7FD4;
+    --orange: #F5A623;
+    --dark:   #1C1C2E;
+    --white:  #ffffff;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--dark); overflow-x: hidden; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100; height: 64px;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 3rem;
+    background: rgba(255,255,255,0.97); backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(0,0,0,0.06);
+  }
+  .nav-logo { font-family: 'Playfair Display', serif; font-style: italic; font-size: 1.5rem; font-weight: 900; color: var(--dark); text-decoration: none; }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a { font-size: 0.82rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: #888; text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--dark); font-weight: 700; }
+
+  /* PAGE HEADER */
+  .page-header { padding: 8rem 3rem 2rem; background: white; }
+  .page-header h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 900; line-height: 1.0; letter-spacing: -0.03em; }
+  .page-header h1 em { font-style: italic; color: var(--pink); }
+  .page-header p { font-size: 1rem; color: #888; margin-top: 0.6rem; }
+
+  /* GRID */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    padding: 0 3rem 4rem;
+  }
+
+  /* ROW HEIGHTS */
+  .row-1 { grid-column: span 1; height: 320px; }
+  .row-2 { height: 300px; }
+  .row-2-wide { grid-column: span 2; height: 300px; }
+  .row-3 { height: 300px; }
+  .row-3-wide { grid-column: span 2; height: 300px; }
+  .row-4 { grid-column: span 1; height: 280px; }
+  .row-5-wide { grid-column: span 2; height: 280px; }
+  .row-5 { grid-column: span 1; height: 280px; }
+
+  /* CARD BASE */
+  .project-card {
+    position: relative; overflow: hidden; border-radius: 16px;
+    cursor: pointer; display: block; text-decoration: none;
+    background: #e8e8e8;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .project-card:hover { transform: scale(0.985); box-shadow: 0 16px 48px rgba(0,0,0,0.12); }
+  .project-card img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; }
+  .project-card:hover img { transform: scale(1.05); }
+
+  /* PLACEHOLDER (no image yet) */
+  .placeholder {
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 2rem;
+  }
+  .ph-label {
+    font-size: 0.62rem; font-weight: 700; letter-spacing: 0.14em;
+    text-transform: uppercase; margin-bottom: 0.6rem;
+    opacity: 0.6;
+  }
+  .ph-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.1rem, 2vw, 1.7rem);
+    font-weight: 900; font-style: italic;
+    line-height: 1.15;
+  }
+
+  /* Placeholder colors */
+  .ph-disney  { background: #0d1b4b; color: white; }
+  .ph-arezzo  { background: #1a1a1a; color: white; }
+  .ph-magical { background: var(--pink); color: white; }
+  .ph-casacor { background: #c8b89a; color: white; }
+  .ph-tokstok { background: #e8b84b; color: var(--dark); }
+  .ph-ascenda { background: var(--blue); color: white; }
+
+  /* OVERLAY */
+  .card-overlay {
+    position: absolute; inset: 0; border-radius: 16px;
+    background: linear-gradient(to top, rgba(28,28,46,0.88) 0%, rgba(28,28,46,0.05) 55%, transparent 100%);
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 1.3rem; opacity: 0;
+    transition: opacity 0.35s ease;
+  }
+  .project-card:hover .card-overlay { opacity: 1; }
+  .card-tag { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--orange); margin-bottom: 0.25rem; }
+  .card-title { font-family: 'Playfair Display', serif; font-size: clamp(0.95rem, 1.5vw, 1.25rem); font-weight: 900; font-style: italic; color: white; line-height: 1.1; }
+  .card-arrow { position: absolute; top: 1rem; right: 1rem; width: 32px; height: 32px; background: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; opacity: 0; transition: opacity 0.3s, background 0.2s; }
+  .project-card:hover .card-arrow { opacity: 1; }
+
+  /* BEHANCE CARD */
+  .behance-card {
+    position: relative; border-radius: 16px;
+    background: var(--pink);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-decoration: none; cursor: pointer; overflow: hidden;
+    transition: background 0.3s;
+  }
+  .behance-card:hover { background: var(--dark); }
+  .behance-card::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 30% 50%, rgba(254,172,48,0.35) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 70%, rgba(107,127,212,0.25) 0%, transparent 55%);
+    animation: bPulse 4s ease-in-out infinite alternate;
+  }
+  @keyframes bPulse { 0% { opacity: 0.5; } 100% { opacity: 1; } }
+  .behance-plus { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900; font-style: italic; color: white; position: relative; z-index: 1; margin-bottom: 0.2rem; }
+  .behance-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.85); position: relative; z-index: 1; }
+  .behance-sub { font-size: 0.6rem; color: rgba(255,255,255,0.5); letter-spacing: 0.06em; text-transform: uppercase; margin-top: 0.2rem; position: relative; z-index: 1; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 0 1.5rem; }
+    .nav-links { display: none; }
+    .page-header { padding: 6rem 1.5rem 1.5rem; }
+    .projects-grid { grid-template-columns: 1fr 1fr; padding: 0 1.5rem 3rem; }
+    .row-1, .row-2, .row-2-wide, .row-3, .row-3-wide, .row-4, .row-5, .row-5-wide { grid-column: span 1 !important; height: 200px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Muse Studio</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="index.html#about">About Us</a></li>
+    <li><a href="index.html#services">Services</a></li>
+    <li><a href="projects.html" class="active">Projects</a></li>
+    <li><a href="/cdn-cgi/l/email-protection#99f1fcf5f5f6d9f4eceafceaedecfdf0f6b7faf6f4">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="page-header">
+  <h1>Our <em>Projects.</em></h1>
+  <p>A selection of brands we've built, shaped and brought to life.</p>
+</div>
+
+<div class="projects-grid">
+
+  <!-- ROW 1: Disney, Arezzo, Magical Brands -->
+  <a href="project-disney.html" class="project-card row-1">
+    <img src="img/proj_disney.png" alt="The Walt Disney Company">
+    <div class="card-overlay">
+      <div class="card-tag">Product Design</div>
+      <div class="card-title">The Walt Disney Company</div>
+    </div>
+    <div class="card-arrow">→</div>
+  </a>
+
+  <a href="project-arezzo.html" class="project-card row-1">
+    <img src="img/proj_arezzo.png" alt="Arezzo">
+    <div class="card-overlay">
+      <div class="card-tag">Visual Identity · Fashion</div>
+      <div class="card-title">Arezzo &amp; Co</div>
+    </div>
+    <div class="card-arrow">→</div>
+  </a>
+
+  <a href="project-magical.html" class="project-card row-1">
+    <img src="img/proj_magical.png" alt="Magical Brands">
+    <div class="card-overlay">
+      <div class="card-tag">Branding · Art Direction</div>
+      <div class="card-title">Magical Brands</div>
+    </div>
+    <div class="card-arrow">→</div>
+  </a>
+
+  <!-- ROW 2: Casacor (wide), Vynea Skincare -->
+  <a href="project-casacor.html" class="project-card row-2-wide">
+    <img src="img/proj_casacor.jpg" alt="Casacor">
+    <div class="card-overlay">
+      <div class="card-tag">Freehand Drawing</div>
+      <div class="card-title">Casacor</div>
+    </div>
+    <div class="card-arrow">→</div>
+  </a>
+
+  <a href="project-vynea.html" class="project-card row-2">
+    <img src="img/proj_vynea.jpg" alt="VYNEA Skincare">
+    <div class="card-overlay">
+      <div class="card-tag">Branding · Product Design</div>
+      <div class="card-title">VYNEA Skincare</div>
+    </div>
+    <div class="card-arrow">→</div>
+  </a>
+
+  <!-- ROW 3: Upsip Soda, Galak (wide) -->
+  <a href="project-upsip.html" class="project-card row-3">
+    <img src="img/proj_upsip.png" alt="UpSip Soda">
+    <div class="card-overlay">
+      <div class="card-tag">Branding · Product Design</div>
+      <div class="card-title">UpSip Juicy Soda</div>
+    </div>
+    <div class="card-arrow">→</div>
+  </a>
+
+  <a href="project-galak.html" class="project-card row-3-wide">
+    <img src="img/proj_galak.png" alt="Galak Nestlé">
+    <div class="card-overlay">
+      <div class="card-tag">Product Design</div>
+      <div class="card-title">Galak · Nestlé</div>
+    </div>
+    <div class="card-arrow">→</div>
+  </a>
+
+  <!-- ROW 4: Tok&Stok, Maximalism, Ascenda -->
+  <a href="project-tokstok.html" class="project-card row-4">
+    <img src="img/proj_tokstok.png" alt="Tok &amp; Stok">
+    <div class="card-overlay">
+      <div class="card-tag">Retail · Pattern Design</div>
+      <div class="card-title">Tok &amp; Stok</div>
+    </div>
+    <div class="card-arrow">→</div>
+  </a>
+
+  <a href="project-maximalism.html" class="project-card row-4">
+    <img src="img/proj_max.png" alt="Maximalism">
+    <div class="card-overlay">
+      <div class="card-tag">Visual Identity · Branding</div>
+      <div class="card-title">Maximalism</div>
+    </div>
+    <div class="card-arrow">→</div>
+  </a>
+
+  <a href="project-ascenda.html" class="project-card row-4">
+    <img src="img/proj_ascenda.png" alt="Ascenda">
+    <div class="card-overlay">
+      <div class="card-tag">UX/UI · Visual Identity</div>
+      <div class="card-title">Ascenda</div>
+    </div>
+    <div class="card-arrow">→</div>
+  </a>
+
+  <!-- ROW 5: Faze Magazine (wide) + Behance -->
+  <a href="project-faze.html" class="project-card row-5-wide">
+    <img src="img/proj_faze.jpg" alt="FAZE Magazine">
+    <div class="card-overlay">
+      <div class="card-tag">Editorial Design · Branding</div>
+      <div class="card-title">FAZE Magazine</div>
+    </div>
+    <div class="card-arrow">→</div>
+  </a>
+
+  <a href="https://www.behance.net/nathalischuchm" target="_blank" class="behance-card row-5">
+    <div class="behance-plus">+</div>
+    <div class="behance-label">More Projects</div>
+    <div class="behance-sub">View on Be
